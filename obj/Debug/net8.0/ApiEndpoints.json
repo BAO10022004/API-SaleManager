@@ -1,0 +1,34 @@
+[
+  {
+    "ContainingType": "SaleManagerWebAPI.Controllers.AuthController",
+    "Method": "FindAccountByEmailOrUsername",
+    "RelativePath": "Auth/FindAccountByEmailOrUsername/{emailOrUsername}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailOrUsername",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SaleManagerWebAPI.Controllers.AuthController",
+    "Method": "SignUp",
+    "RelativePath": "Auth/SignUp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "account",
+        "Type": "SaleManagerWebAPI.Models.Dtos.AccountSignUpDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

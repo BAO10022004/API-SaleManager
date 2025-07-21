@@ -1,0 +1,6 @@
+@SaleManagerWebAPI_HostAddress = http://localhost:5246
+
+GET {{SaleManagerWebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
