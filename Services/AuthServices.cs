@@ -1,6 +1,7 @@
 ﻿using SaleManagerWebAPI.Data;
 using SaleManagerWebAPI.Models.Entities;
 using SaleManagerWebAPI.Responsitories;
+using SaleManagerWebAPI.Tools;
 
 namespace SaleManagerWebAPI.Services
 {
@@ -17,10 +18,9 @@ namespace SaleManagerWebAPI.Services
         {
             if(emailOrUsername == null)
                 throw new ArgumentNullException("emailOrUsername is null");
-
-            var account = _responsitories.FindAccountByEmail(emailOrUsername) 
-                           ?? _responsitories.FindAccountByUsername(emailOrUsername);
-            return account;
+            if (AccountTooler.IsEmail(emailOrUsername))
+                return _responsitories.FindAccountByEmail(emailOrUsername);
+            return _responsitories.FindAccountByUsername(emailOrUsername);
         }
         #endregion
 

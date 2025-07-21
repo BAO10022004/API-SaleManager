@@ -166,3 +166,5 @@ C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\obj\Debug\net8.0\refint\
 C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\obj\Debug\net8.0\SaleManagerWebAPI.pdb
 C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\obj\Debug\net8.0\SaleManagerWebAPI.genruntimeconfig.cache
 C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\obj\Debug\net8.0\ref\SaleManagerWebAPI.dll
+C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\obj\Debug\net8.0\SaleManagerWebAPI.sourcelink.json

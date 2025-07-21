@@ -17,6 +17,22 @@
   },
   {
     "ContainingType": "SaleManagerWebAPI.Controllers.AuthController",
+    "Method": "PasswordChange",
+    "RelativePath": "Auth/PasswordChanger/{emailOrUsername}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailOrUsername",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SaleManagerWebAPI.Controllers.AuthController",
     "Method": "SignUp",
     "RelativePath": "Auth/SignUp",
     "HttpMethod": "POST",

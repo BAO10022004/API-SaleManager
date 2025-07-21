@@ -198,6 +198,14 @@ namespace SaleManagerWebAPI.Controllers
             }
         }
         #endregion
+        #region PasswordChanger
+        /////////  ---------- Main ----------  /////////
+        [HttpPost("PasswordChanger/{emailOrUsername}")]
+        public ActionResult PasswordChange(string emailOrUsername)
+        {
+            return null;
+        }
 
+        #endregion
     }
 }
