@@ -39,5 +39,17 @@ namespace SaleManagerWebAPI.Responsitories
                 throw new Exception($"Failed to add account {ex.Message}");
             }
         }
+        public Account UpdateAccount(Account accountUpdated)
+        {
+            try
+            {
+
+                 _dbContext.Accounts.Update(accountUpdated);
+                _dbContext.SaveChanges();
+                return accountUpdated;
+            }catch(Exception ex){
+                throw new Exception($"Failed to update account {ex.Message}");
+            }
+        }
     }
 }

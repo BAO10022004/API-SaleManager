@@ -1,6 +1,27 @@
 [
   {
     "ContainingType": "SaleManagerWebAPI.Controllers.AuthController",
+    "Method": "EmailChange",
+    "RelativePath": "Auth/EmailChanger/{emailOrUsername}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailOrUsername",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "newEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SaleManagerWebAPI.Controllers.AuthController",
     "Method": "FindAccountByEmailOrUsername",
     "RelativePath": "Auth/FindAccountByEmailOrUsername/{emailOrUsername}",
     "HttpMethod": "GET",
@@ -27,6 +48,11 @@
         "Name": "emailOrUsername",
         "Type": "System.String",
         "IsRequired": true
+      },
+      {
+        "Name": "newPassword",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

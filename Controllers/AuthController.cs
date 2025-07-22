@@ -5,6 +5,7 @@ using SaleManagerWebAPI.Models.Entities;
 using SaleManagerWebAPI.Models.MyResponse;
 using SaleManagerWebAPI.Result;
 using SaleManagerWebAPI.Services;
+using System.Text.RegularExpressions;
 
 namespace SaleManagerWebAPI.Controllers
 {
@@ -198,14 +199,95 @@ namespace SaleManagerWebAPI.Controllers
             }
         }
         #endregion
+
         #region PasswordChanger
         /////////  ---------- Main ----------  /////////
         [HttpPost("PasswordChanger/{emailOrUsername}")]
-        public ActionResult PasswordChange(string emailOrUsername)
+        public ActionResult PasswordChange(string emailOrUsername, string newPassword)
         {
-            return null;
+            if(string.IsNullOrEmpty(emailOrUsername))
+                return BadRequest(_baseReponseService.CreateErrorResponse("Email or Username cannot be empty."));
+            if (string.IsNullOrEmpty(newPassword))
+                return BadRequest(_baseReponseService.CreateErrorResponse("New password cannot be empty."));
+            
+            var account = _authService.FindAccountWithEmailOrUsername(emailOrUsername);
+            if (account == null)
+            {
+                return NotFound(_baseReponseService.CreateErrorResponse("Account not found."));
+            }
+            var hashedPassword = HashPassword(newPassword);
+            if (VerifyPassword(newPassword, account.PasswordHash))
+            {
+                return BadRequest(_baseReponseService.CreateErrorResponse("New password cannot be the same as the old password."));
+            }
+            try
+            {
+                PasswordValidationResult validationResult = new PasswordValidationResult();
+                CheckPassword(newPassword, account.Username, account.Email, validationResult);
+
+                if (validationResult.Errors.Any())
+                {
+                    return BadRequest(_baseReponseService.CreateErrorResponse("Password validation failed.", validationResult.Errors));
+                }
+
+                var updatedAccount = _authService.ChangePassword(account, HashPassword(newPassword));
+                return Ok(_baseReponseService.CreateSuccessResponse(updatedAccount, "Password changed successfully."));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _baseReponseService.CreateErrorResponse("Internal server error occurred."));
+            }
         }
 
+        #endregion
+
+        #region EmailChanger
+        [HttpPost("EmailChanger/{emailOrUsername}")]
+        /////////  ---------- Main ----------  /////////
+        public ActionResult EmailChange(string emailOrUsername, string newEmail)
+        {
+            if (string.IsNullOrEmpty(emailOrUsername))
+                return BadRequest(_baseReponseService.CreateErrorResponse("Email or Username cannot be empty."));
+            if (string.IsNullOrEmpty(newEmail))
+                return BadRequest(_baseReponseService.CreateErrorResponse("New email cannot be empty."));
+
+            var account = _authService.FindAccountWithEmailOrUsername(emailOrUsername);
+            if (account == null)
+            {
+                return NotFound(_baseReponseService.CreateErrorResponse("Account not found."));
+            }           
+            try
+            {
+
+                if(!Regex.IsMatch(newEmail, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                {
+                    return BadRequest(_baseReponseService.CreateErrorResponse("Email validation failed.", new List<string>()));
+                }
+                var updatedAccount = _authService.ChangeEmail(account, newEmail);
+                return Ok(_baseReponseService.CreateSuccessResponse(updatedAccount, "Email changed successfully."));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _baseReponseService.CreateErrorResponse("Internal server error occurred."));
+            }
+        }
+        #endregion
+
+        #region VetifyEmail
+        [HttpGet("SendCode/{email}")]
+        public ActionResult SendCode(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return BadRequest(_baseReponseService.CreateErrorResponse("Email cannot be empty."));
+
+            var account = _authService.FindAccountWithEmail(email);
+            if (account == null)
+            {
+                return NotFound(_baseReponseService.CreateErrorResponse("Account not found."));
+            }
+
+            return Ok(_baseReponseService.CreateSuccessResponse(account, "Email verified successfully."));
+        }
         #endregion
     }
 }

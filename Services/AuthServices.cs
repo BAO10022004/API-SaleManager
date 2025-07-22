@@ -55,5 +55,30 @@ namespace SaleManagerWebAPI.Services
         }
         #endregion
 
+        #region ChangePassword
+        public Account ChangePassword(Account account, string newPassword)
+        {
+            if (account == null)
+                throw new ArgumentNullException("account is null");
+            if (string.IsNullOrEmpty(newPassword))
+                throw new ArgumentException("newPassword cannot be null or empty");
+
+            account.PasswordHash = newPassword;
+            return _responsitories.UpdateAccount(account);
+        }
+        #endregion
+       
+        #region ChangeEmail
+        public Account ChangeEmail(Account account, string newEmail)
+        {
+            if (account == null)
+                throw new ArgumentNullException("account is null");
+            if (string.IsNullOrEmpty(newEmail))
+                throw new ArgumentException("Email cannot be null or empty");
+
+            account.Email = newEmail;
+            return _responsitories.UpdateAccount(account);
+        }
+        #endregion
     }
 }
