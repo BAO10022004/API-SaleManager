@@ -15,13 +15,19 @@ namespace SaleManagerWebAPI.Controllers
     {
         private readonly BaseReponseService _baseReponseService;
         private readonly AuthServices _authService;
+        private readonly EmailServices _emailServices;
+        private readonly CodeServices _codeServices;
         public AuthController(
             AuthServices authServices,
-            BaseReponseService baseReponseService
+            BaseReponseService baseReponseService,
+            EmailServices emailServices,
+            CodeServices codeServices
         )
         {
             _baseReponseService = baseReponseService;
             _authService = authServices;
+            _emailServices = emailServices;
+            _codeServices = codeServices;
         }
 
         #region FindAccountWithEmailOrUsername
@@ -273,9 +279,9 @@ namespace SaleManagerWebAPI.Controllers
         }
         #endregion
 
-        #region VetifyEmail
+        #region SendCode
         [HttpGet("SendCode/{email}")]
-        public ActionResult SendCode(string email)
+        public async Task<ActionResult> SendCode(string email)
         {
             if (string.IsNullOrEmpty(email))
                 return BadRequest(_baseReponseService.CreateErrorResponse("Email cannot be empty."));
@@ -285,9 +291,58 @@ namespace SaleManagerWebAPI.Controllers
             {
                 return NotFound(_baseReponseService.CreateErrorResponse("Account not found."));
             }
+            var code = GenerateRandomCode();
+            try
+            {
+                _codeServices.AddCode(email, code);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(_baseReponseService.CreateErrorResponse(ex.Message));
+            }
+            try
+            {
+                    await _emailServices.SendVerificationCodeAsync(email, code);
+                 return Ok(_baseReponseService.CreateSuccessResponse(account, "Email verified successfully."));
+            }catch(Exception ex) {
+                return StatusCode(500, _baseReponseService.CreateErrorResponse("Failed to send verification code."));
+            }
+        }
 
-            return Ok(_baseReponseService.CreateSuccessResponse(account, "Email verified successfully."));
+        private string GenerateRandomCode()
+        {
+            var random = new Random();
+            return random.Next(100000, 999999).ToString();
         }
         #endregion
+
+        //#region VerifyCode
+        //[HttpPost("VerifyCode")]
+        //public async Task<ActionResult> VerifyCode([FromBody] CodeVerificationDTO codeVerification)
+        //{
+        //    if (codeVerification == null)
+        //        return BadRequest(_baseReponseService.CreateErrorResponse("Code verification data cannot be null."));
+
+        //    if (string.IsNullOrEmpty(codeVerification.Email) || string.IsNullOrEmpty(codeVerification.Code))
+        //        return BadRequest(_baseReponseService.CreateErrorResponse("Email and Code are required."));
+
+        //    try
+        //    {
+        //        bool isValid = await _codeServices.VerifyCodeAsync(codeVerification.Email, codeVerification.Code);
+        //        if (isValid)
+        //        {
+        //            return Ok(_baseReponseService.CreateSuccessResponse(null, "Code verified successfully."));
+        //        }
+        //        else
+        //        {
+        //            return BadRequest(_baseReponseService.CreateErrorResponse("Invalid code or code has expired."));
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, _baseReponseService.CreateErrorResponse("Internal server error occurred."));
+        //    }
+        //}
+        //#endregion
     }
 }

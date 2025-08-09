@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SaleManagerWebAPI.Data;
 using SaleManagerWebAPI.Result;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +17,16 @@ builder.Services.AddDbContext<SaleContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<SaleManagerWebAPI.Services.AuthServices>();
+builder.Services.AddScoped<SaleManagerWebAPI.Services.CodeServices>();
+builder.Services.AddScoped<SaleManagerWebAPI.Services.EmailServices>();
 builder.Services.AddScoped<BaseReponseService>();
 
 var app = builder.Build(); // Build happens here
+var options = new JsonSerializerOptions
+{
+    ReferenceHandler = ReferenceHandler.Preserve,
+    WriteIndented = true
+};
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

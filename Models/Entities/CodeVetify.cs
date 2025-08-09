@@ -24,6 +24,8 @@ namespace SaleManagerWebAPI.Models.Entities
 
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [Column("verified_at ")]
+        public DateTime? VerifiedAt { get; set; }
 
         [MaxLength(255)]
         [Column("device_info")]
@@ -35,6 +37,7 @@ namespace SaleManagerWebAPI.Models.Entities
 
         [Column("is_active")]
         public bool IsActive { get; set; } = true;
+
 
         // Navigation property
         [ForeignKey("AccountId")]

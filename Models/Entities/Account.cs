@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace SaleManagerWebAPI.Models.Entities
 {
@@ -31,8 +32,10 @@ namespace SaleManagerWebAPI.Models.Entities
 
         [Column("last_login")]
         public DateTime? LastLogin { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<AuthToken> AuthTokens { get; set; } = new List<AuthToken>();
+        [JsonIgnore]
+        public virtual ICollection<CodeVetify> CodeVetifies { get; set; } = new List<CodeVetify>();
     }
 
 }

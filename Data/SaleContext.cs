@@ -10,8 +10,10 @@ namespace SaleManagerWebAPI.Data
         }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AuthToken> AuthTokens { get; set; }
+        public DbSet<CodeVetify> CodeVetifies { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Account>(entity =>
             {
@@ -93,6 +95,52 @@ namespace SaleManagerWebAPI.Data
 
                 entity.HasCheckConstraint("CK_auth_tokens_token_type",
                     "token_type IN ('login', 'refresh', 'api')");
+            });
+            modelBuilder.Entity<CodeVetify>(entity =>
+            {
+                entity.ToTable("code_vetify");
+
+                entity.Property(e => e.Id)
+                    .HasDefaultValueSql("NEWID()");
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.CodeVetifies)
+                    .HasForeignKey(d => d.AccountId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_code_vetify_account");
+
+
+                entity.HasIndex(e => e.Code)
+                    .IsUnique()
+                    .HasDatabaseName("IX_code_vetify_code");
+
+                entity.Property(e => e.ExpiresAt)
+                    .HasColumnType("datetime2")
+                    .HasDefaultValueSql("GETDATE()")
+                    .IsRequired();
+
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime2")
+                    .HasDefaultValueSql("GETDATE()")
+                    .IsRequired();
+
+                entity.Property(e => e.VerifiedAt)
+                   .HasColumnType("datetime2")
+                   .HasDefaultValueSql("GETDATE()")
+                   .IsRequired();
+
+                entity.Property(e => e.DeviceInfo)
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.IpAddress)
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.IsActive)
+                    .HasDefaultValue(true);
+
+
+
             });
         }
     }

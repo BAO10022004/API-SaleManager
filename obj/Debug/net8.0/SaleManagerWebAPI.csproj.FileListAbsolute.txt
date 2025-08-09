@@ -168,3 +168,8 @@ C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\obj\Debug\net8.0\SaleMan
 C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\obj\Debug\net8.0\ref\SaleManagerWebAPI.dll
 C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\obj\Debug\net8.0\SaleManagerWebAPI.sourcelink.json
+C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\bin\Debug\net8.0\MailKit.dll
+C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\bin\Debug\net8.0\MimeKit.dll
+C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\giaba\source\repos\3\Ky2\API\SaleManagerWebAPI\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
