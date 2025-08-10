@@ -7,6 +7,7 @@ namespace SaleManagerWebAPI.Services
 {
     public class EmailServices : IEmailResponsitoris
     {
+        #region SendVerificationCodeAsync
         public async Task SendVerificationCodeAsync(string toEmail, string code)
         {
             var message = new MimeMessage();
@@ -25,6 +26,8 @@ namespace SaleManagerWebAPI.Services
             await client.SendAsync(message);
             await client.DisconnectAsync(true);
         }
+        #endregion
+
         #region CreateVerificationEmailTemplate
         public static string CreateVerificationEmailTemplate(string verificationCode)
         {

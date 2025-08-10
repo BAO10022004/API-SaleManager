@@ -127,8 +127,7 @@ namespace SaleManagerWebAPI.Data
 
                 entity.Property(e => e.VerifiedAt)
                    .HasColumnType("datetime2")
-                   .HasDefaultValueSql("GETDATE()")
-                   .IsRequired();
+                   .HasDefaultValueSql("GETDATE()");
 
                 entity.Property(e => e.DeviceInfo)
                     .HasMaxLength(255);

@@ -302,7 +302,7 @@ namespace SaleManagerWebAPI.Controllers
             }
             try
             {
-                    await _emailServices.SendVerificationCodeAsync(email, code);
+                 await _emailServices.SendVerificationCodeAsync(email, code);
                  return Ok(_baseReponseService.CreateSuccessResponse(account, "Email verified successfully."));
             }catch(Exception ex) {
                 return StatusCode(500, _baseReponseService.CreateErrorResponse("Failed to send verification code."));
@@ -316,33 +316,33 @@ namespace SaleManagerWebAPI.Controllers
         }
         #endregion
 
-        //#region VerifyCode
-        //[HttpPost("VerifyCode")]
-        //public async Task<ActionResult> VerifyCode([FromBody] CodeVerificationDTO codeVerification)
-        //{
-        //    if (codeVerification == null)
-        //        return BadRequest(_baseReponseService.CreateErrorResponse("Code verification data cannot be null."));
+        #region VerifyCode
+        [HttpPost("VerifyCode")]
+        public async Task<ActionResult> VerifyCode([FromBody] CodeVerificationDTO codeVerification)
+        {
+            if (codeVerification == null)
+                return BadRequest(_baseReponseService.CreateErrorResponse("Code verification data cannot be null."));
 
-        //    if (string.IsNullOrEmpty(codeVerification.Email) || string.IsNullOrEmpty(codeVerification.Code))
-        //        return BadRequest(_baseReponseService.CreateErrorResponse("Email and Code are required."));
+            if (string.IsNullOrEmpty(codeVerification.Email) || string.IsNullOrEmpty(codeVerification.Code))
+                return BadRequest(_baseReponseService.CreateErrorResponse("Email and Code are required."));
 
-        //    try
-        //    {
-        //        bool isValid = await _codeServices.VerifyCodeAsync(codeVerification.Email, codeVerification.Code);
-        //        if (isValid)
-        //        {
-        //            return Ok(_baseReponseService.CreateSuccessResponse(null, "Code verified successfully."));
-        //        }
-        //        else
-        //        {
-        //            return BadRequest(_baseReponseService.CreateErrorResponse("Invalid code or code has expired."));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, _baseReponseService.CreateErrorResponse("Internal server error occurred."));
-        //    }
-        //}
-        //#endregion
+            try
+            {
+                bool isValid = await _codeServices.VerifyCodeAsync(codeVerification.Email, codeVerification.Code);
+                if (isValid)
+                {
+                    return Ok(_baseReponseService.CreateSuccessResponse(null, "Code verified successfully."));
+                }
+                else
+                {
+                    return BadRequest(_baseReponseService.CreateErrorResponse("Invalid code or code has expired."));
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _baseReponseService.CreateErrorResponse("Internal server error occurred."));
+            }
+        }
+        #endregion
     }
 }

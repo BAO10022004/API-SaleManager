@@ -7,6 +7,7 @@ namespace SaleManagerWebAPI.Services
 {
     public class DeviceServices : IDeviceResponsitories
     {
+        #region GetDeviceIP
         public string GetDeviceIP()
         {
             try
@@ -26,7 +27,9 @@ namespace SaleManagerWebAPI.Services
 
             throw new ArgumentNullException("Can not get local devices IP : ");
         }
-
+        #endregion
+       
+        #region GetDeviceMAC
         public string GetDeviceMAC()
         {
             try
@@ -61,10 +64,11 @@ namespace SaleManagerWebAPI.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting primary MAC: {ex.Message}");
+                throw new ArgumentNullException("Error getting primary MAC : " + ex.Message);
             }
 
-            return string.Empty;
+            throw new ArgumentNullException("Error getting primary MAC : ");
         }
+        #endregion
     }
 }

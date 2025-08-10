@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SaleManagerWebAPI.Data;
 
@@ -11,9 +12,11 @@ using SaleManagerWebAPI.Data;
 namespace SaleManagerWebAPI.Migrations
 {
     [DbContext(typeof(SaleContext))]
-    partial class SaleContextModelSnapshot : ModelSnapshot
+    [Migration("20250810065406_UpdateCode")]
+    partial class UpdateCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

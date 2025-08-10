@@ -17,7 +17,7 @@ namespace SaleManagerWebAPI.Services
             _authServices =new AuthServices(_dbContext);
             _deviceServices = new DeviceServices();
         }
-
+        #region AddCode
         public void AddCode(string email, string code)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -42,11 +42,13 @@ namespace SaleManagerWebAPI.Services
             codeItem.IsActive = true;
             codeItem.DeviceInfo = _deviceServices.GetDeviceMAC();
             codeItem.IpAddress = _deviceServices.GetDeviceIP();
-
+            codeItem.VerifiedAt = DateTime.MinValue;
             _dbContext.CodeVetifies.Add(codeItem);
             _dbContext.SaveChangesAsync();
         }
+        #endregion
 
+        #region DeactivateOldCodes
         public void DeactivateOldCodes(Guid accountId)
         {
             var oldCodes = _dbContext.CodeVetifies
@@ -60,7 +62,10 @@ namespace SaleManagerWebAPI.Services
         }
 
 
-         async Task<bool> ICodeResponsitories.VerifyCodeAsync(string email, string code)
+        #endregion
+
+        #region VerifyCodeAsync
+        public async Task<bool> VerifyCodeAsync(string email, string code)
         {
             try
             {
@@ -78,7 +83,7 @@ namespace SaleManagerWebAPI.Services
 
                 // Vô hiệu hóa code sau khi verify thành công
                 codeItem.IsActive = false;
-                codeItem.ExpiresAt = DateTime.UtcNow;
+                codeItem.VerifiedAt = DateTime.UtcNow;
 
                 await _dbContext.SaveChangesAsync();
                 return true;
@@ -88,5 +93,6 @@ namespace SaleManagerWebAPI.Services
                 throw new Exception("Error verifying code", ex);
             }
         }
+        #endregion
     }
 }

@@ -88,5 +88,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SaleManagerWebAPI.Controllers.AuthController",
+    "Method": "VerifyCode",
+    "RelativePath": "Auth/VerifyCode",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "codeVerification",
+        "Type": "SaleManagerWebAPI.Models.Dtos.CodeVerificationDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
